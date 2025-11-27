@@ -12,6 +12,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 // Import routes
 const {
@@ -28,13 +29,35 @@ const {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Rate limiting configuration
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    success: false,
+    error: 'Too many requests, please try again later.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const staticLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // Limit each IP to 200 requests per windowMs for static files
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Apply rate limiting to API routes
+app.use('/api', apiLimiter);
+
+// Serve static files from public directory with rate limiting
+app.use(staticLimiter, express.static(path.join(__dirname, '..', 'public')));
 
 // API Routes
 app.use('/api/orders', ordersRoutes);        // Sales - Order management
@@ -114,8 +137,8 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Serve the frontend for any non-API routes
-app.get('/{*splat}', (req, res) => {
+// Serve the frontend for any non-API routes (with rate limiting)
+app.get('/{*splat}', staticLimiter, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
