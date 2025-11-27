@@ -1,0 +1,27 @@
+{
+  "name": "software-control-manufactura-logistica",
+  "version": "1.0.0",
+  "description": "Software de gestión de ciclo de pedidos: Ideal para empresas de fabricación con áreas para comercialización y campañas o eventos gráficos. Unifica ventas, producción (MRP) y logística con un sistema de rastreo de estados para el cliente.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node --test tests/"
+  },
+  "keywords": [
+    "order-management",
+    "mrp",
+    "production",
+    "logistics",
+    "manufacturing",
+    "sales",
+    "tracking"
+  ],
+  "author": "Andres Florèz Atencia",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "uuid": "^13.0.0"
+  }
+}

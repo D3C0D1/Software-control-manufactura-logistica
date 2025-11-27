@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Ciclo de Pedidos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>📦 OrderFlow</h1>
+                <p>Gestión de Pedidos</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-section="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-section="orders">
+                    <span class="icon">🛒</span>
+                    <span>Ventas / Pedidos</span>
+                </li>
+                <li class="nav-item" data-section="production">
+                    <span class="icon">🏭</span>
+                    <span>Producción (MRP)</span>
+                </li>
+                <li class="nav-item" data-section="logistics">
+                    <span class="icon">🚚</span>
+                    <span>Logística</span>
+                </li>
+                <li class="nav-item" data-section="campaigns">
+                    <span class="icon">📢</span>
+                    <span>Campañas / Eventos</span>
+                </li>
+                <li class="nav-item" data-section="products">
+                    <span class="icon">📦</span>
+                    <span>Productos</span>
+                </li>
+                <li class="nav-item" data-section="customers">
+                    <span class="icon">👥</span>
+                    <span>Clientes</span>
+                </li>
+                <li class="nav-item" data-section="tracking">
+                    <span class="icon">🔍</span>
+                    <span>Rastreo de Pedidos</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h2 id="sectionTitle">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <span class="date-time" id="currentDateTime"></span>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <section id="dashboardSection" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🛒</div>
+                            <div class="stat-info">
+                                <h3 id="totalOrders">0</h3>
+                                <p>Total Pedidos</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏭</div>
+                            <div class="stat-info">
+                                <h3 id="totalProduction">0</h3>
+                                <p>En Producción</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🚚</div>
+                            <div class="stat-info">
+                                <h3 id="totalShipments">0</h3>
+                                <p>Envíos</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <h3 id="totalRevenue">$0</h3>
+                                <p>Ingresos Totales</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>📋 Pedidos por Estado</h3>
+                            <div id="ordersByStatus" class="status-list"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>🏭 Producción por Estado</h3>
+                            <div id="productionByStatus" class="status-list"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>📢 Campañas Activas</h3>
+                            <div id="activeCampaigns" class="campaigns-list"></div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>⚠️ Productos con Bajo Stock</h3>
+                            <div id="lowStockProducts" class="products-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="ordersSection" class="section">
+                    <div class="section-header">
+                        <h3>Gestión de Pedidos</h3>
+                        <button class="btn btn-primary" onclick="showNewOrderModal()">+ Nuevo Pedido</button>
+                    </div>
+                    <div class="filters">
+                        <select id="orderStatusFilter" onchange="filterOrders()">
+                            <option value="">Todos los estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="confirmed">Confirmado</option>
+                            <option value="in_production">En Producción</option>
+                            <option value="ready_for_shipping">Listo para Envío</option>
+                            <option value="in_transit">En Tránsito</option>
+                            <option value="delivered">Entregado</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Production Section -->
+                <section id="productionSection" class="section">
+                    <div class="section-header">
+                        <h3>Producción (MRP)</h3>
+                        <button class="btn btn-primary" onclick="showNewProductionModal()">+ Nueva Orden de Producción</button>
+                    </div>
+                    <div class="filters">
+                        <select id="productionStatusFilter" onchange="filterProduction()">
+                            <option value="">Todos los estados</option>
+                            <option value="scheduled">Programado</option>
+                            <option value="in_queue">En Cola</option>
+                            <option value="in_progress">En Progreso</option>
+                            <option value="quality_check">Control de Calidad</option>
+                            <option value="completed">Completado</option>
+                        </select>
+                        <select id="productionPriorityFilter" onchange="filterProduction()">
+                            <option value="">Todas las prioridades</option>
+                            <option value="low">Baja</option>
+                            <option value="normal">Normal</option>
+                            <option value="high">Alta</option>
+                            <option value="urgent">Urgente</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Pedido</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Horas Est.</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productionTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Logistics Section -->
+                <section id="logisticsSection" class="section">
+                    <div class="section-header">
+                        <h3>Logística - Envíos</h3>
+                        <button class="btn btn-primary" onclick="showNewShipmentModal()">+ Nuevo Envío</button>
+                    </div>
+                    <div class="filters">
+                        <select id="shipmentStatusFilter" onchange="filterShipments()">
+                            <option value="">Todos los estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="preparing">Preparando</option>
+                            <option value="ready">Listo</option>
+                            <option value="in_transit">En Tránsito</option>
+                            <option value="delivered">Entregado</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Pedido</th>
+                                    <th>Estado</th>
+                                    <th>Transportista</th>
+                                    <th>Destino</th>
+                                    <th>Fecha Est.</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logisticsTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Campaigns Section -->
+                <section id="campaignsSection" class="section">
+                    <div class="section-header">
+                        <h3>Campañas y Eventos Gráficos</h3>
+                        <button class="btn btn-primary" onclick="showNewCampaignModal()">+ Nueva Campaña</button>
+                    </div>
+                    <div class="campaigns-grid" id="campaignsGrid"></div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="productsSection" class="section">
+                    <div class="section-header">
+                        <h3>Catálogo de Productos</h3>
+                        <button class="btn btn-primary" onclick="showNewProductModal()">+ Nuevo Producto</button>
+                    </div>
+                    <div class="products-grid" id="productsGrid"></div>
+                </section>
+
+                <!-- Customers Section -->
+                <section id="customersSection" class="section">
+                    <div class="section-header">
+                        <h3>Gestión de Clientes</h3>
+                        <button class="btn btn-primary" onclick="showNewCustomerModal()">+ Nuevo Cliente</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Total Pedidos</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Tracking Section -->
+                <section id="trackingSection" class="section">
+                    <div class="tracking-container">
+                        <h3>🔍 Rastrear Pedido</h3>
+                        <p>Ingrese el número de pedido para consultar su estado</p>
+                        <div class="tracking-search">
+                            <input type="text" id="trackingInput" placeholder="Ej: ORD-2411-0001" />
+                            <button class="btn btn-primary" onclick="trackOrder()">Rastrear</button>
+                        </div>
+                        <div id="trackingResult" class="tracking-result"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Template -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
