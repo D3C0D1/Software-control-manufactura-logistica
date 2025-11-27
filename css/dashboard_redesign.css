@@ -1,0 +1,618 @@
+/* Dashboard Rediseño - Diseño Hermoso y Formal */
+
+/* Variables CSS para consistencia */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --info-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.15);
+    --border-radius: 20px;
+    --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --text-light: rgba(255, 255, 255, 0.9);
+    
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+/* Animaciones globales */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Contenedor principal del dashboard */
+.dashboard-container {
+    background: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+
+/* Contenedor de métricas rediseñado */
+.metrics-container {
+    padding: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Título del dashboard */
+.dashboard-title {
+    color: var(--text-light);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.dashboard-subtitle {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    opacity: 0.9;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* Grid de métricas principales */
+.main-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* Tarjetas de métricas rediseñadas */
+.metric-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.metric-card:hover::before {
+    left: 100%;
+}
+
+.metric-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--card-shadow-hover);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* Animaciones secuenciales para las tarjetas */
+.metric-card:nth-child(1) { animation-delay: 0.1s; }
+.metric-card:nth-child(2) { animation-delay: 0.2s; }
+.metric-card:nth-child(3) { animation-delay: 0.3s; }
+.metric-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Header de la métrica */
+.metric-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.metric-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Iconos de métricas mejorados */
+.metric-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    
+    /* Asegurar forma circular */
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+}
+
+.metric-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+}
+
+.metric-card:hover .metric-icon::before {
+    width: 100%;
+    height: 100%;
+}
+
+.metric-card:hover .metric-icon {
+    transform: scale(1.1) rotate(5deg);
+    animation: pulse 2s infinite;
+}
+
+/* Gradientes específicos para cada tipo de métrica */
+.metric-card.total .metric-icon {
+    background: var(--primary-gradient);
+}
+
+.metric-card.finished .metric-icon {
+    background: var(--success-gradient);
+}
+
+.metric-card.reception .metric-icon {
+    background: var(--info-gradient);
+}
+
+.metric-card.daily .metric-icon {
+    background: var(--warning-gradient);
+}
+
+.metric-card.employees .metric-icon {
+    background: var(--secondary-gradient);
+}
+
+.metric-card.registered .metric-icon {
+    background: var(--danger-gradient);
+}
+
+/* Valor de la métrica */
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 15px 0 5px 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Sección de métricas por área */
+.area-metrics-section {
+    margin-top: 50px;
+}
+
+.section-title {
+    color: var(--text-light);
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: slideInLeft 0.8s ease-out;
+}
+
+/* Grid de métricas por área */
+.area-metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 25px !important;
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Tarjetas de área con trigger para modal */
+.area-modal-trigger {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.area-modal-trigger::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.area-modal-trigger:hover::after {
+    transform: scaleX(1);
+}
+
+.area-modal-trigger:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow-hover);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* Animaciones secuenciales para áreas */
+.area-modal-trigger:nth-child(1) { animation-delay: 0.5s; }
+.area-modal-trigger:nth-child(2) { animation-delay: 0.6s; }
+.area-modal-trigger:nth-child(3) { animation-delay: 0.7s; }
+.area-modal-trigger:nth-child(4) { animation-delay: 0.8s; }
+.area-modal-trigger:nth-child(5) { animation-delay: 0.9s; }
+.area-modal-trigger:nth-child(6) { animation-delay: 1.0s; }
+
+/* Preview de métricas en las tarjetas de área */
+.metric-preview {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.preview-item {
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.preview-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.preview-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.preview-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* Enhanced auto hover animations for sequential effects */
+.metric-card.auto-hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--primary-color);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.95));
+}
+
+.area-modal-trigger.auto-hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--accent-color);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+}
+
+.metric-card.auto-hover .metric-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.area-modal-trigger.auto-hover .metric-icon {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.metric-card.auto-hover .metric-number {
+    color: var(--primary-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.area-modal-trigger.auto-hover .metric-number {
+    color: var(--accent-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auto-hover .metric-icon {
+    animation: float 2s ease-in-out infinite !important;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1400px) {
+    .main-metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .area-metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .metrics-container {
+        padding: 1.5rem;
+    }
+    
+    .area-metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .metric-card {
+        padding: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .metrics-container {
+        padding: 1rem;
+    }
+    
+    .main-metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .area-metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+    }
+    
+    .metric-card {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .metric-value {
+        font-size: 2.2rem;
+    }
+    
+    .dashboard-title {
+        font-size: 2.2rem;
+        text-align: center;
+    }
+    
+    .dashboard-subtitle {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .metric-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        min-height: 55px;
+        max-width: 55px;
+        max-height: 55px;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 576px) {
+    .metrics-container {
+        padding: 0.8rem;
+    }
+    
+    .metric-card {
+        padding: 1.2rem;
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+    }
+    
+    .metric-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        min-height: 55px;
+        max-width: 55px;
+        max-height: 55px;
+        font-size: 1.3rem;
+    }
+    
+    .dashboard-title {
+        font-size: 2rem;
+    }
+    
+    .dashboard-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-title {
+        font-size: 1.8rem;
+    }
+    
+    .metric-icon {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        min-height: 45px;
+        max-width: 45px;
+        max-height: 45px;
+        font-size: 18px;
+    }
+    
+    .metric-value {
+        font-size: 1.8rem;
+    }
+    
+    .preview-item {
+        padding: 8px;
+    }
+    
+    .preview-number {
+        font-size: 1.2rem;
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Enhanced animations for better performance */
+@media (prefers-reduced-motion: no-preference) {
+    .metric-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .metric-icon {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .metric-value {
+        transition: all 0.3s ease;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .metric-card,
+    .metric-icon,
+    .metric-value {
+        transition: none;
+        animation: none;
+    }
+    
+    .metric-card.auto-hover {
+        transform: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Efectos especiales para interacciones */
+.metric-card.loading {
+    background: linear-gradient(
+        90deg,
+        var(--glass-bg) 25%,
+        rgba(255, 255, 255, 0.4) 50%,
+        var(--glass-bg) 75%
+    );
+    background-size: 200px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Mejoras para accesibilidad */
+.metric-card:focus,
+.area-modal-trigger:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+}
+
+/* Transiciones suaves para el tema */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

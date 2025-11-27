@@ -1,0 +1,59 @@
+/* Dashboard Override: Modo simple sin animaciones ni efectos que desborden */
+
+/* Eliminar pseudo-elementos decorativos que pueden causar scroll y jank */
+.card::before,
+.card::after,
+.dashboard-header::before,
+.dashboard-header::after {
+    display: none !important;
+}
+
+/* Desactivar animaciones, transiciones y transforms generales en el dashboard */
+.metric-card,
+.card,
+.nav-item,
+.employee-welcome,
+.btn-area,
+.clock-widget,
+.dashboard-header,
+.connection-status,
+.signal-bar,
+.stat-card {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+}
+
+/* Hover estable sin transformaciones bruscas */
+.card:hover,
+.metric-card:hover,
+.nav-item:hover,
+.btn-area:hover,
+.clock-widget:hover {
+    transform: none !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12) !important;
+}
+
+/* Asegurar que no haya desbordes horizontales */
+body,
+.main-content {
+    overflow-x: hidden !important;
+}
+
+/* Fondo decorativo antes del layout puede generar overflow */
+.dashboard-layout::before {
+    display: none !important;
+}
+
+/* Valores de números sin animaciones */
+.metric-number,
+.card-info p {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Partículas y contenedores de efectos deshabilitados */
+.particle-container,
+.particle {
+    display: none !important;
+}

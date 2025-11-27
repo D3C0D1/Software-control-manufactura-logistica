@@ -1,0 +1,230 @@
+/* Dashboard Simple - Sin animaciones ni efectos complejos */
+
+/* Variables básicas */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --text-dark: #343a40;
+    --border-color: #dee2e6;
+}
+
+/* Reset y base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Container principal */
+.metrics-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Títulos */
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dashboard-subtitle {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+/* Métricas principales */
+.main-metrics {
+    margin-bottom: 40px;
+}
+
+.employee-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Métricas por área */
+.area-metrics-section {
+    margin-top: 30px;
+}
+
+.area-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjetas de métricas */
+.metric-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Header de métrica */
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.metric-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.metric-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.metric-action-icon {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+/* Valores de métricas */
+.metric-value,
+.metric-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+/* Colores específicos para áreas */
+.metric-card[data-area="diseno"] .metric-icon {
+    background-color: #9b59b6;
+}
+
+.metric-card[data-area="confeccion"] .metric-icon {
+    background-color: #e67e22;
+}
+
+.metric-card[data-area="sublimado"] .metric-icon {
+    background-color: #1abc9c;
+}
+
+.metric-card[data-area="mensajeria"] .metric-icon {
+    background-color: #3498db;
+}
+
+.metric-card[data-area="impresion"] .metric-icon {
+    background-color: #e74c3c;
+}
+
+.metric-card[data-area="control_calidad"] .metric-icon {
+    background-color: #f39c12;
+}
+
+.metric-card[data-area="recepcion"] .metric-icon {
+    background-color: #6c5ce7;
+}
+
+/* Tarjetas especiales */
+.metric-card.total .metric-value {
+    color: var(--primary-color);
+}
+
+.metric-card.pending .metric-value {
+    color: var(--warning-color);
+}
+
+.metric-card.completed .metric-value {
+    color: var(--success-color);
+}
+
+.metric-card.urgent .metric-value {
+    color: var(--danger-color);
+}
+
+/* Triggers para modales */
+.area-modal-trigger {
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.area-modal-trigger:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .metrics-container {
+        padding: 15px;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+    
+    .main-metrics-grid,
+    .area-metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .metric-value,
+    .metric-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .metric-card {
+        padding: 15px;
+    }
+    
+    .metric-value,
+    .metric-number {
+        font-size: 1.8rem;
+    }
+}

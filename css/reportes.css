@@ -1,0 +1,554 @@
+.report-section {
+    margin-bottom: 2rem;
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+}
+
+.pedidos-section {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pedidos-section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.search-container {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px 12px 40px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    background-color: #fff;
+}
+
+.search-container::before {
+    content: '\f002';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.pedidos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pedido-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pedido-card-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.pedido-card p {
+    margin: 0.5rem 0;
+}
+
+.pedido-card .btn-view-historial {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.pedido-card .btn-view-historial:hover {
+    background-color: #0056b3;
+}
+
+.pedido-card .btn-delete {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.pedido-card .btn-delete:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 900px;
+    border-radius: 8px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.historial-table th, .historial-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.historial-table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+}
+
+
+/* Estilos para métricas */
+.metricas-container {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.metricas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.metrica-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #28a745;
+}
+
+.metrica-card h4 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.metrica-card p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* Badges y etiquetas */
+.area-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.area-20 { background-color: #6c757d; } /* Recepción */
+.area-1 { background-color: #007bff; }  /* Diseño */
+.area-2 { background-color: #fd7e14; }  /* Sublimado */
+.area-3 { background-color: #20c997; }  /* Confección */
+.area-4 { background-color: #ffc107; color: #000; } /* Preparado */
+.area-5 { background-color: #dc3545; }  /* Control de Calidad */
+.area-10 { background-color: #28a745; } /* Finalizado */
+
+.usuario-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.duracion {
+    font-weight: 600;
+}
+
+.duracion.rapido {
+    color: #28a745;
+}
+
+.duracion.normal {
+    color: #ffc107;
+}
+
+.duracion.lento {
+    color: #dc3545;
+}
+
+.eficiencia {
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+.eficiencia.eficiente {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.eficiencia.normal {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.eficiencia.lento {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.eficiencia.finalizado {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.en-proceso {
+    color: #007bff;
+    font-style: italic;
+}
+
+.finalizado {
+    background-color: #f8f9fa;
+}
+
+/* Usuarios por área */
+.usuarios-por-area {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.usuarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.usuario-area-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 3px solid #007bff;
+}
+
+.usuario-area-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.usuario-area-card p {
+    margin: 0.25rem 0;
+    font-size: 0.8rem;
+}
+
+/* Estilos para información de finalización */
+.finalizado-por {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.pedido-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.pedido-card-actions button {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-view-historial {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-view-historial:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Mejorar estilos de usuarios */
+.usuario-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.usuarios-por-area {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.usuarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.usuario-area-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #17a2b8;
+}
+
+.usuario-area-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+.usuario-area-card p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .report-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .metricas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .usuarios-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+        padding: 15px;
+    }
+    
+    .historial-table {
+        font-size: 0.8rem;
+    }
+    
+    .historial-table th,
+    .historial-table td {
+        padding: 8px;
+    }
+}
+
+/* Estilos específicos para tablas de reportes semanales */
+.table-reportes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #ffffff !important;
+}
+
+.table-reportes th {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+    padding: 12px !important;
+    text-align: center !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.table-reportes td {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    padding: 10px !important;
+    text-align: center !important;
+    border: 1px solid #dee2e6 !important;
+    font-weight: 500 !important;
+}
+
+.table-reportes tbody tr:nth-child(even) {
+    background-color: #f8f9fa !important;
+}
+
+.table-reportes tbody tr:nth-child(even) td {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+}
+
+.table-reportes tbody tr:hover {
+    background-color: #e9ecef !important;
+}
+
+.table-reportes tbody tr:hover td {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+}
+
+/* Asegurar que el texto sea siempre visible - REFORZADO */
+.table-reportes * {
+    color: #212529 !important;
+}
+
+.table-reportes td *,
+.table-reportes th *,
+.table-reportes span,
+.table-reportes div,
+.table-reportes strong,
+.table-reportes b {
+    color: #212529 !important;
+}
+
+/* Forzar color en números específicos */
+.table-reportes .numero,
+.table-reportes .total,
+.table-reportes .count,
+.table-reportes [data-count],
+.table-reportes .badge {
+    color: #212529 !important;
+    background-color: transparent !important;
+}
+
+/* Estilos para contenedores de reportes */
+.reportes-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.reportes-container h3 {
+    color: #212529 !important;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.reportes-container p {
+    color: #495057 !important;
+    margin-bottom: 10px;
+}
+
+/* Override para cualquier estilo de Bootstrap que pueda interferir */
+.table-reportes.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #ffffff !important;
+}
+
+.table-reportes.table-striped tbody tr:nth-of-type(odd) td {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.table-reportes.table-striped tbody tr:nth-of-type(even) {
+    background-color: #f8f9fa !important;
+}
+
+.table-reportes.table-striped tbody tr:nth-of-type(even) td {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+}
+
+/* Responsive para tablas de reportes */
+@media (max-width: 768px) {
+    .table-reportes {
+        font-size: 0.85rem;
+    }
+    
+    .table-reportes th,
+    .table-reportes td {
+        padding: 8px !important;
+    }
+}

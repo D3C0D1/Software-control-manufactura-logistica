@@ -1,0 +1,291 @@
+/* Staff Modals - custom, lightweight, and closable */
+
+.staff-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 40px 16px;
+}
+
+.staff-modal.show {
+  display: block;
+}
+
+.staff-modal-content {
+  background: #ffffff;
+  width: min(960px, 94vw);
+  max-height: 90vh;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.staff-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.staff-modal-header h5 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.staff-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+}
+
+.staff-modal-close:hover {
+  color: #000;
+}
+
+.staff-modal-body {
+  padding: 16px 20px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.staff-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid #eee;
+}
+
+.users-summary {
+  margin-bottom: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.simple-users-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.simple-users-list li {
+  padding: 10px 12px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.simple-users-list li .user-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.simple-users-list li .user-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.simple-users-list li .badge {
+  padding: 6px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.no-users-message,
+.error-message {
+  text-align: center;
+  padding: 24px;
+  color: #777;
+}
+
+.last-update-modal {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.staff-close-btn {
+  border-radius: 8px;
+}
+
+/* Grid list for users */
+.users-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .users-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Subtle icon styling */
+.staff-icon {
+  color: #7f8c8d;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 14px;
+  flex-wrap: wrap;
+}
+.filter-bar label {
+  font-size: 0.9rem;
+  color: #555;
+}
+.filter-bar select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Chips row */
+.chips-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.chip {
+  padding: 6px 10px;
+  border-radius: 18px;
+  font-size: 0.85rem;
+  background: #f0f3f5;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+.chip .count {
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* User card */
+.user-card {
+  padding: 10px 12px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.user-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-name {
+  font-weight: 600;
+  color: #111;
+}
+.user-username {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+.user-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  padding: 6px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  border: 1px solid #eaeaea;
+  background: #f7f7f7;
+  color: #444;
+}
+.badge-role-operador {
+  background: #eaf2ff;
+  border-color: #cfe2ff;
+  color: #2251a3;
+}
+.badge-role-empleado {
+  background: #f2f2f2;
+  border-color: #e4e4e7;
+  color: #3f3f46;
+}
+.badge-role-administrativo {
+  background: #ede9fe;
+  border-color: #ddd6fe;
+  color: #5b21b6;
+}
+.badge-area {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+.badge-area-diseno {
+  background: #f3e8ff;
+  border-color: #e9d5ff;
+  color: #7c3aed;
+}
+.badge-area-impresion {
+  background: #e0f2fe;
+  border-color: #bae6fd;
+  color: #0369a1;
+}
+.badge-area-confeccion {
+  background: #dcfce7;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+.badge-area-sublimado {
+  background: #fffbeb;
+  border-color: #fef3c7;
+  color: #92400e;
+}
+.badge-area-recepcion {
+  background: #fef2f2;
+  border-color: #fee2e2;
+  color: #b91c1c;
+}
+.badge-area-mensajeria {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+.badge-status-active {
+  background: #eafff3;
+  border-color: #c9f6dc;
+  color: #1b5e20;
+}
+.badge-status-inactive {
+  background: #fff1f2;
+  border-color: #ffe4e6;
+  color: #9f1239;
+}
+.user-stale {
+  background: linear-gradient(180deg, #ffffff, #fff5f5);
+  border-color: #ffd5d8;
+}

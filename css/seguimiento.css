@@ -1,0 +1,208 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.tracking-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.tracking-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.tracking-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tracking-form input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.tracking-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.tracking-form button i {
+    margin-right: 8px;
+}
+
+#resultado-busqueda .pedido-info {
+    text-align: left;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+/* Estilos para el Modal */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Animación de la línea de tiempo */
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.timeline-item {
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: #ddd;
+    top: 50%;
+    left: -50%;
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+.timeline-item:first-child::before {
+    content: none;
+}
+
+.timeline-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px auto;
+    font-size: 24px;
+    transition: background-color 0.3s;
+}
+
+.timeline-item.active .timeline-icon {
+    background-color: #28a745;
+    animation: pulseGlow 0.6s ease-out both;
+}
+
+.timeline-item.active::before {
+    background-color: #28a745;
+}
+
+/* Animaciones secuenciales */
+.timeline-item {
+    opacity: 0.5;
+    transform: translateY(4px);
+}
+.timeline-item.active {
+    opacity: 1;
+    transform: translateY(0);
+    animation: stepReveal 0.5s ease-out both;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(40,167,69,0.7); transform: scale(1); }
+    70% { box-shadow: 0 0 0 12px rgba(40,167,69,0); transform: scale(1.06); }
+    100% { box-shadow: 0 0 0 0 rgba(40,167,69,0); transform: scale(1); }
+}
+
+@keyframes stepReveal {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Banner de listo para recoger en modal */
+.ready-banner {
+    background: linear-gradient(90deg, #28a745, #34ce57);
+    color: #1f2937; /* Texto no blanco */
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin: 8px 0 0;
+    box-shadow: 0 6px 18px rgba(40,167,69,0.35);
+    position: relative;
+}
+/* Mensaje de Finalizado dentro del modal */
+.finalizado-text {
+    color: #1f2937; /* Texto no blanco */
+}
+.ready-banner::after {
+    content: '✨';
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    animation: sparkle 1.8s infinite ease-in-out;
+}
+@keyframes sparkle {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+    50% { transform: rotate(12deg) scale(1.2); opacity: 1; }
+}

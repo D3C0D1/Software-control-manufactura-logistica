@@ -1,0 +1,158 @@
+/* Estilos para la distinción de archivos viejos y nuevos */
+
+.archivos-section {
+    margin-top: 20px;
+}
+
+.archivos-section h4 {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.archivos-section h4:first-child {
+    background-color: #f8f9fa;
+    border-left: 4px solid #6c757d;
+    color: #495057;
+}
+
+.archivos-section h4:last-of-type {
+    background-color: #e8f5e8;
+    border-left: 4px solid #28a745;
+    color: #155724;
+}
+
+.archivos-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.archivos-section li {
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.archivo-original {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.archivo-nuevo {
+    background-color: #e8f5e8;
+    border: 1px solid #c3e6cb;
+}
+
+.archivos-section li:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.archivos-section a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.archivos-section .file-icon {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.archivo-original .file-icon {
+    color: #6c757d;
+}
+
+.archivo-nuevo .file-icon {
+    color: #28a745;
+}
+
+.file-name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.file-type {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+}
+
+.badge-viejo {
+    background-color: #6c757d;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-nuevo {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Estilos para la sección de nuevo archivo */
+.nuevo-archivo-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.nuevo-archivo-section h4 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.file-upload-container {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    border: 2px dashed #dee2e6;
+    transition: border-color 0.2s ease;
+}
+
+.file-upload-container:hover {
+    border-color: #007bff;
+}
+
+.btn-upload {
+    transition: all 0.2s ease;
+}
+
+.btn-upload:hover {
+    background-color: #0056b3 !important;
+    transform: translateY(-1px);
+}
+
+.btn-upload:disabled {
+    background-color: #6c757d !important;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#upload-status {
+    min-height: 20px;
+}

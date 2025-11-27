@@ -1,0 +1,316 @@
+.content-sections {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Alternativa con Grid más específica */
+.content-sections {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-rows: 1fr !important;
+    gap: 20px !important;
+    padding: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.section {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    flex: 1; /* Para que cada sección ocupe el mismo espacio */
+    width: 100%;
+}
+
+.section:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Colores específicos para cada sección en Confección */
+#recepcion-col h2 {
+    background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+    color: white !important;
+}
+
+#en-proceso-col h2 {
+    background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+    color: #212529 !important;
+}
+
+#preparado-col h2 {
+    background: linear-gradient(135deg, #17a2b8, #138496) !important;
+    color: white !important;
+}
+
+.pedidos-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.pedido-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pedido-card p {
+    margin: 5px 0;
+    word-break: break-all;
+}
+
+.pedido-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.pedido-actions button {
+    padding: 8px 12px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Colores personalizados para botones de acción en Confección */
+.pedido-actions .btn-view {
+    background-color: #17a2b8;
+}
+
+.pedido-actions .btn-process {
+    background-color: #28a745;
+}
+
+.pedido-actions .btn-ready {
+    background-color: #ffc107;
+}
+
+.pedido-actions .btn-return {
+    background-color: #dc3545;
+}
+
+.pedido-actions .btn-send-design {
+    background-color: #007bff;
+}
+
+.pedido-actions .btn-return-process {
+    background-color: #ffc107;
+}
+
+/* Estilos específicos de confección que no están en diseno.css */
+
+.btn-view:hover { background-color: #138496; }
+.btn-process:hover { background-color: #218838; }
+.btn-ready:hover { background-color: #e0a800; }
+.btn-return:hover { background-color: #c82333; }
+
+.pedido-actions button .fas {
+    animation: fa-beat 1s infinite;
+}
+
+@keyframes fa-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content-sections {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto auto !important;
+    }
+    
+    .section {
+        min-height: 300px;
+    }
+    
+    .modal-content {
+        width: 90%;
+        margin: 5% auto;
+    }
+}
+
+/* Return Modal Styles */
+.return-modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.return-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+/* Los estilos del modal de devolución ahora se heredan de diseno.css */
+
+/* Estilos para el modal de historial de devoluciones */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.historial-modal {
+    background: white;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80%;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.historial-header {
+    background: #28a745;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.historial-header h3 {
+    margin: 0;
+}
+
+.historial-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.historial-header button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.historial-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.mensaje-devolucion {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+}
+
+.mensaje-info {
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+.mensaje-texto {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+}
+
+/* Estilos para el botón de historial de devoluciones */
+.btn-historial-devoluciones {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-historial-devoluciones:hover {
+    background-color: #218838;
+}
+
+/* Indicador de devolución */
+.return-indicator {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.return-indicator i {
+    font-size: 16px;
+}

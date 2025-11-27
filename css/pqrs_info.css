@@ -1,0 +1,127 @@
+body {
+    background-color: #0a0a0a;
+    color: #ffffff;
+}
+
+.info-container {
+    padding: 80px 0;
+}
+
+.info-box {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.info-box h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ff4757;
+    margin-bottom: 30px;
+}
+
+.info-box h2 i {
+    margin-right: 15px;
+}
+
+.info-box p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+}
+
+.pqrs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.pqrs-type {
+    background: #222;
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 5px solid #ff4757;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pqrs-type:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 71, 87, 0.2);
+}
+
+.pqrs-type h4 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.pqrs-type h4 i {
+    margin-right: 10px;
+    color: #ff4757;
+}
+
+.pqrs-type p {
+    color: #bbb;
+    font-size: 1rem;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.response-time {
+    display: block;
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+    text-align: right;
+}
+
+.response-time i {
+    margin-right: 5px;
+}
+
+.action-buttons {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn-pqrs-action {
+    padding: 15px 35px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    border: 2px solid transparent;
+}
+
+.btn-pqrs-action.primary {
+    background-color: #ff4757;
+    color: white;
+    border-color: #ff4757;
+}
+
+.btn-pqrs-action.primary:hover {
+    background-color: #e04050;
+    border-color: #e04050;
+}
+
+.btn-pqrs-action.secondary {
+    background-color: transparent;
+    color: #ff4757;
+    border-color: #ff4757;
+}
+
+.btn-pqrs-action.secondary:hover {
+    background-color: #ff4757;
+    color: white;
+}
+
+.btn-pqrs-action i {
+    margin-right: 10px;
+}

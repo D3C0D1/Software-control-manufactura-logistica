@@ -1,0 +1,217 @@
+.main-header {
+    background-color: #c81d25; /* Rojo Glamcity */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.main-header a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* General Container for PQRS pages */
+.pqrs-container, .info-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Form Styling */
+.form-pqrs, .consulta-pqrs {
+    margin-top: 2rem;
+}
+
+.form-pqrs h2, .consulta-pqrs h2, .info-box h2 {
+    color: #c81d25;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 12px 12px 12px 45px; /* Add padding for icon */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #c81d25;
+    outline: none;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.pqrs-type-group {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.pqrs-type-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.pqrs-type-options input[type="radio"] {
+    display: none;
+}
+
+.pqrs-type-options label {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pqrs-type-options input[type="radio"]:checked + label {
+    background-color: #c81d25;
+    color: white;
+    border-color: #c81d25;
+}
+
+.btn-submit {
+    background-color: #c81d25;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #a0171e;
+    transform: translateY(-2px);
+}
+
+/* Info Page Styling */
+.info-box p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.pqrs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.pqrs-type {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid #c81d25;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pqrs-type:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.pqrs-type h4 {
+    color: #c81d25;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.response-time {
+    font-size: 0.9rem;
+    color: #777;
+    display: block;
+    margin-top: 1rem;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-pqrs-action {
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-pqrs-action.primary {
+    background-color: #c81d25;
+    color: white;
+}
+
+.btn-pqrs-action.secondary {
+    background-color: #eee;
+    color: #333;
+}
+
+.btn-pqrs-action:hover {
+    transform: translateY(-2px);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: #c81d25;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+    background-color: red;
+    color: white;
+}
+
+.main-header a {
+    color: white;
+}

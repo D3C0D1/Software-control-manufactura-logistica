@@ -1,0 +1,278 @@
+/* Línea 1: Cambiar de */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* A */
+@import url('../vendor/fonts/poppins/poppins.css');
+
+/* --- Paleta de Colores Clara y Moderna --- */
+:root {
+    --bg-color: #f4f7f6;
+    --primary-color: #ffffff;
+    --secondary-color: #6c757d;
+    --accent-color: #007bff;
+    --text-color: #343a40;
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* --- Estilos Base --- */
+body.login-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* --- Contenedor Principal del Login --- */
+.login-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-box {
+    background-color: var(--primary-color);
+    padding: 3rem 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: center;
+    animation: fade-in 0.8s ease-in-out;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Logo 'G' Giratorio --- */
+.login-logo-g {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    animation: spin 10s linear infinite;
+    display: inline-block;
+    line-height: 1;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- Textos de Bienvenida --- */
+h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+}
+
+/* --- Formulario y Campos de Entrada --- */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    transition: color 0.3s;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box; /* Añadido para corregir el desbordamiento */
+}
+
+.input-group input::placeholder {
+    color: var(--secondary-color);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.input-group input:focus ~ i {
+    color: var(--accent-color);
+}
+
+.input-group input:focus ~ .fa-user,
+.input-group input:focus ~ .fa-lock {
+    color: var(--accent-color);
+}
+
+/* Estilos para el icono de mostrar/ocultar contraseña */
+#togglePassword {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: color 0.3s;
+    /* Nos aseguramos que el icono del ojo no se vea afectado por otros estilos de <i> */
+    left: auto;
+}
+
+#togglePassword:hover {
+    color: var(--accent-color);
+}
+
+/* Animaciones secuenciales en hover */
+.input-group {
+    transition: transform 0.3s ease-in-out;
+}
+
+.input-group:hover {
+    transform: translateX(5px);
+}
+
+.login-form .input-group:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.login-form .input-group:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.btn-login {
+    transition-delay: 0.15s;
+}
+
+
+/* --- Botón de Ingreso --- */
+.btn-login {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* --- Estilos para el resto del dashboard (a mantener o modificar) --- */
+body.dashboard-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Diseño de la Barra Lateral (Sidebar) --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--primary-color);
+    box-shadow: 2px 0 10px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+}
+
+
+
+
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 1rem 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s, padding-left 0.3s;
+}
+
+.nav-item i {
+    margin-right: 1rem;
+    width: 20px; /* Ancho fijo para alinear iconos */
+    text-align: center;
+}
+
+.nav-item:hover {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+    padding-left: 2rem;
+}
+
+.nav-item.active {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--accent-color);
+    border-right: 4px solid var(--accent-color);
+}
+
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.sidebar-footer .nav-item:hover {
+    background-color: transparent; /* Evita cambio de fondo en el footer */
+    color: #d9534f; /* Color rojo para logout */
+    padding-left: 1.5rem; /* Mantiene el padding original */
+}
+
+/* --- Contenido Principal del Dashboard --- */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
