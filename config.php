@@ -21,6 +21,43 @@ $message_type = '';
 // Obtener configuración SMS
 $sms_config = getSMSConfig();
 
+// Obtener configuración de notificaciones
+$notif_config = ['phone_number' => '', 'notify_daily' => 0];
+try {
+    $pdo = getPDOConnection();
+    
+    // Auto-create table if not exists (Fix for user error)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS notification_config (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        phone_number VARCHAR(20),
+        notify_daily TINYINT(1) DEFAULT 0,
+        last_run DATETIME NULL
+    )");
+    
+    // Ensure row 1 exists
+    $stmt = $pdo->query("SELECT COUNT(*) FROM notification_config");
+    if ($stmt->fetchColumn() == 0) {
+        $pdo->exec("INSERT INTO notification_config (phone_number, notify_daily) VALUES ('', 0)");
+    }
+
+    // Check for new columns and add if missing
+    $columns = $pdo->query("SHOW COLUMNS FROM notification_config")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('notification_time', $columns)) {
+        $pdo->exec("ALTER TABLE notification_config ADD COLUMN notification_time TIME DEFAULT '08:00:00'");
+    }
+    if (!in_array('message_template', $columns)) {
+        $pdo->exec("ALTER TABLE notification_config ADD COLUMN message_template TEXT");
+        $pdo->exec("UPDATE notification_config SET message_template = 'Tienes {normal} pedidos normales y {urgent} pedidos urgentes caducados.' WHERE id = 1");
+    }
+
+    $stmt = $pdo->query("SELECT * FROM notification_config WHERE id = 1");
+    if ($row = $stmt->fetch()) {
+        $notif_config = $row;
+    }
+} catch (Exception $e) {
+    // Ignore or log
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         if ($_POST['action'] === 'update_config') {
@@ -69,6 +106,120 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message_type = 'error';
             }
             
+        } elseif ($_POST['action'] === 'update_notification_config') {
+            $phone = $_POST['boss_phone'] ?? '';
+            $notify = isset($_POST['notify_daily']) ? 1 : 0;
+            $time = $_POST['notification_time'] ?? '08:00';
+            $template = $_POST['message_template'] ?? '';
+            
+            try {
+                $pdo = getPDOConnection();
+                $stmt = $pdo->prepare("UPDATE notification_config SET phone_number = ?, notify_daily = ?, notification_time = ?, message_template = ? WHERE id = 1");
+                $stmt->execute([$phone, $notify, $time, $template]);
+                $message = "Configuración de alertas actualizada.";
+                $message_type = "success";
+                
+                // Refresh config
+                $stmt = $pdo->query("SELECT * FROM notification_config WHERE id = 1");
+                if ($row = $stmt->fetch()) {
+                    $notif_config = $row;
+                }
+            } catch (Exception $e) {
+                $message = "Error: " . $e->getMessage();
+                $message_type = "error";
+            }
+        } elseif ($_POST['action'] === 'test_notification') {
+            // Calculate metrics for test
+            try {
+                $pdo = getPDOConnection();
+                
+                // Urgent Expired (> 24h old)
+                $sqlUrgent = "SELECT COUNT(*) FROM pedidos WHERE prioridad = 'alta' AND fecha_creacion < DATE_SUB(NOW(), INTERVAL 1 DAY) AND area_id != 10 AND estado_id != 3";
+                $urgentCount = $pdo->query($sqlUrgent)->fetchColumn();
+                
+                // Normal Expired (> 3 days old)
+                $sqlNormal = "SELECT COUNT(*) FROM pedidos WHERE prioridad = 'normal' AND fecha_creacion < DATE_SUB(NOW(), INTERVAL 3 DAY) AND area_id != 10 AND estado_id != 3";
+                $normalCount = $pdo->query($sqlNormal)->fetchColumn();
+                
+                // Use template
+                $template = $notif_config['message_template'] ?? 'Tienes {normal} pedidos normales y {urgent} pedidos urgentes caducados.';
+                $msg = str_replace(['{normal}', '{urgent}'], [$normalCount, $urgentCount], $template);
+                
+                $phone = $_POST['boss_phone']; 
+                
+                // Send SMS via Onurix
+                $client_id = $sms_config['onurix_client_id'];
+                $api_key = $sms_config['onurix_api_key'];
+                
+                if (empty($client_id) || empty($api_key)) {
+                    throw new Exception("Credenciales de Onurix no configuradas.");
+                }
+                
+                $client = new Client();
+                
+                // Check for Proxy
+                $useProxy = (($sms_config['sms_proxy_enabled'] ?? '0') === '1') && !empty($sms_config['sms_proxy_url']);
+                
+                if ($useProxy) {
+                    $payload = [
+                        'phone' => $phone,
+                        'sms' => $msg,
+                        'context' => 'test'
+                    ];
+                    if (($sms_config['sms_proxy_send_credentials'] ?? '0') === '1') {
+                        $payload['client'] = $client_id;
+                        $payload['key'] = $api_key;
+                    }
+
+                    $headers = [
+                        'Content-Type' => 'application/json',
+                        'Accept' => 'application/json'
+                    ];
+                    if (!empty($sms_config['sms_proxy_token'])) {
+                        $headers['Authorization'] = 'Bearer ' . $sms_config['sms_proxy_token'];
+                    }
+
+                    $response = $client->post($sms_config['sms_proxy_url'], [
+                        'headers' => $headers,
+                        'json' => $payload,
+                        'timeout' => 15
+                    ]);
+                    
+                    $body = json_decode($response->getBody(), true);
+                    if (isset($body['success']) && $body['success']) {
+                         $message = "<strong>SMS Enviado (Proxy):</strong><br>Destino: $phone<br>Mensaje: $msg";
+                         $message_type = "success";
+                    } else {
+                         throw new Exception("Error Proxy: " . ($body['message'] ?? 'Desconocido'));
+                    }
+                    
+                } else {
+                    // Direct Send
+                    $response = $client->post('https://www.onurix.com/api/v1/sms/send', [
+                        'form_params' => [
+                            'client' => $client_id,
+                            'key'    => $api_key,
+                            'phone'  => $phone,
+                            'sms'    => $msg,
+                        ],
+                        'timeout' => 30
+                    ]);
+                    
+                    $body = json_decode($response->getBody(), true);
+                    
+                    if (isset($body['status']) && $body['status'] == 1) {
+                        $message = "<strong>SMS Enviado Exitosamente:</strong><br>Destino: $phone<br>Mensaje: $msg<br>ID: " . ($body['data']['id'] ?? 'N/A');
+                        $message_type = "success";
+                    } else {
+                        $message = "Error al enviar SMS: " . ($body['msg'] ?? 'Error desconocido');
+                        $message_type = "error";
+                    }
+                }
+                
+            } catch (Exception $e) {
+                 $message = "Error al probar: " . $e->getMessage();
+                 $message_type = "error";
+            }
         }
     }
 }
@@ -255,6 +406,50 @@ $tipoHosting = obtenerTipoHosting();
                         <button type="submit" class="btn-primary">
                             <i class="fas fa-save"></i> Guardar Configuración SMS
                         </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Configuración de Alertas de Caducidad -->
+            <div class="config-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Alertas de Caducidad</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="config-form">
+                        <input type="hidden" name="action" value="update_notification_config">
+                        
+                        <div class="form-group">
+                            <label for="boss_phone">Número Telefónico del Jefe:</label>
+                            <input type="text" id="boss_phone" name="boss_phone" value="<?php echo htmlspecialchars($notif_config['phone_number']); ?>" placeholder="+57 300..." required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notification_time">Hora de Envío (Diario):</label>
+                            <input type="time" id="notification_time" name="notification_time" value="<?php echo htmlspecialchars($notif_config['notification_time'] ?? '08:00'); ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message_template">Plantilla del Mensaje:</label>
+                            <textarea id="message_template" name="message_template" rows="3" class="form-control" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"><?php echo htmlspecialchars($notif_config['message_template'] ?? 'Tienes {normal} pedidos normales y {urgent} pedidos urgentes caducados.'); ?></textarea>
+                            <small>Variables disponibles: <strong>{normal}</strong> (cantidad normales), <strong>{urgent}</strong> (cantidad urgentes)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="notify_daily" <?php echo $notif_config['notify_daily'] ? 'checked' : ''; ?>>
+                                Avisar cada 24 horas sobre pedidos caducados
+                            </label>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i> Guardar Configuración
+                            </button>
+                            <button type="submit" name="action" value="test_notification" class="btn-secondary" style="background-color: #6c757d;">
+                                <i class="fas fa-paper-plane"></i> Probar Notificación
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -52,6 +52,42 @@ function getPedidosMetrics($conn) {
     $result_open_pqrs = $conn->query($sql_open_pqrs);
     $open_pqrs = $result_open_pqrs ? $result_open_pqrs->fetch_assoc()['open_pqrs'] : 0;
 
+    // Pedidos Urgentes Caducados (> 24 horas)
+    $sql_urgent_expired = "SELECT COUNT(*) as count FROM pedidos 
+                           WHERE prioridad = 'alta' 
+                           AND fecha_creacion < DATE_SUB(NOW(), INTERVAL 1 DAY)
+                           AND area_id != 10 
+                           AND estado_id != 3";
+    $result_urgent = $conn->query($sql_urgent_expired);
+    $urgent_expired = $result_urgent ? $result_urgent->fetch_assoc()['count'] : 0;
+
+    // Pedidos Normales Caducados (> 3 días)
+    $sql_normal_expired = "SELECT COUNT(*) as count FROM pedidos 
+                           WHERE prioridad = 'normal' 
+                           AND fecha_creacion < DATE_SUB(NOW(), INTERVAL 3 DAY)
+                           AND area_id != 10 
+                           AND estado_id != 3";
+    $result_normal = $conn->query($sql_normal_expired);
+    $normal_expired = $result_normal ? $result_normal->fetch_assoc()['count'] : 0;
+
+    // Pedidos Urgentes Por Caducar (Entre 12 y 24 horas - Menos de 12h restantes)
+    $sql_urgent_warning = "SELECT COUNT(*) as count FROM pedidos 
+                           WHERE prioridad = 'alta' 
+                           AND fecha_creacion BETWEEN DATE_SUB(NOW(), INTERVAL 24 HOUR) AND DATE_SUB(NOW(), INTERVAL 12 HOUR)
+                           AND area_id != 10 
+                           AND estado_id != 3";
+    $result_urgent_warning = $conn->query($sql_urgent_warning);
+    $urgent_warning = $result_urgent_warning ? $result_urgent_warning->fetch_assoc()['count'] : 0;
+
+    // Pedidos Normales Por Caducar (Entre 60 y 72 horas - 2.5 a 3 días)
+    $sql_normal_warning = "SELECT COUNT(*) as count FROM pedidos 
+                           WHERE prioridad = 'normal' 
+                           AND fecha_creacion BETWEEN DATE_SUB(NOW(), INTERVAL 72 HOUR) AND DATE_SUB(NOW(), INTERVAL 60 HOUR)
+                           AND area_id != 10 
+                           AND estado_id != 3";
+    $result_normal_warning = $conn->query($sql_normal_warning);
+    $normal_warning = $result_normal_warning ? $result_normal_warning->fetch_assoc()['count'] : 0;
+
     // PQRS Cerradas
     $sql_closed_pqrs = "SELECT COUNT(*) as closed_pqrs FROM pqrs WHERE estado = 'cerrado' OR estado = 'resuelto'";
     $result_closed_pqrs = $conn->query($sql_closed_pqrs);
@@ -159,6 +195,10 @@ function getPedidosMetrics($conn) {
         'registered_employees' => $registered_employees,
         'logged_users' => $logged_users,
         'logged_users_details' => $logged_users_details,
+        'urgent_expired' => $urgent_expired,
+        'normal_expired' => $normal_expired,
+        'urgent_warning' => $urgent_warning,
+        'normal_warning' => $normal_warning,
         'area_counts' => $area_counts
     ];
 }

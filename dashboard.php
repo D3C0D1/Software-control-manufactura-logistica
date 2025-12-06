@@ -106,9 +106,55 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="metric-value" id="daily-orders">0</div>
                         <div class="metric-label">Pedidos del Día</div>
                     </div>
+
+                    <div class="metric-card urgent" onclick="showExpiredOrders('urgent')" style="cursor: pointer;">
+                        <div class="metric-header">
+                            <h3 class="metric-title">Urgentes Caducados</h3>
+                            <div class="metric-icon" style="background-color: #dc3545;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="urgent-expired-orders">0</div>
+                        <div class="metric-label">Pedidos Urgentes > 24h</div>
+                    </div>
+
+                    <div class="metric-card urgent-warning" onclick="showExpiredOrders('urgent_warning')" style="cursor: pointer;">
+                        <div class="metric-header">
+                            <h3 class="metric-title">Urgentes por Caducar</h3>
+                            <div class="metric-icon" style="background-color: #fd7e14;">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="urgent-warning-orders">0</div>
+                        <div class="metric-label">Vencen en < 12h</div>
+                    </div>
+
+                    <div class="metric-card pending" onclick="showExpiredOrders('normal')" style="cursor: pointer;">
+                        <div class="metric-header">
+                            <h3 class="metric-title">Normales Caducados</h3>
+                            <div class="metric-icon" style="background-color: #ffc107;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="normal-expired-orders">0</div>
+                        <div class="metric-label">Pedidos Normales > 3 días</div>
+                    </div>
+
+                    <div class="metric-card normal-warning" onclick="showExpiredOrders('normal_warning')" style="cursor: pointer;">
+                        <div class="metric-header">
+                            <h3 class="metric-title">Normales por Caducar</h3>
+                            <div class="metric-icon" style="background-color: #17a2b8;">
+                                <i class="fas fa-hourglass-start"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="normal-warning-orders">0</div>
+                        <div class="metric-label">Vencen en < 12h</div>
+                    </div>
                 </div>
             </div>
             
+
+
             <!-- Métricas por Área -->
             <div class="area-metrics-section">
                 <h2 class="section-title">🏭 Métricas por Área</h2>
@@ -536,6 +582,10 @@ if (!isset($_SESSION['user_id'])) {
                 animateNumber(document.getElementById('total-orders'), data.total_orders || 0);
                 animateNumber(document.getElementById('finished-orders'), data.finished_orders || 0);
                 animateNumber(document.getElementById('daily-orders'), data.daily_orders || 0);
+                animateNumber(document.getElementById('urgent-expired-orders'), data.urgent_expired || 0);
+                animateNumber(document.getElementById('normal-expired-orders'), data.normal_expired || 0);
+                animateNumber(document.getElementById('urgent-warning-orders'), data.urgent_warning || 0);
+                animateNumber(document.getElementById('normal-warning-orders'), data.normal_warning || 0);
                 
                 // Actualizar métricas de empleados
                 animateNumber(document.getElementById('active-employees'), data.active_employees || 0);
@@ -903,6 +953,81 @@ if (!isset($_SESSION['user_id'])) {
          
          // Actualizar actividad al cargar la página
          updateUserActivity();
+
+        // Funciones para Modal de Pedidos Caducados
+        function showExpiredOrders(type) {
+            const modal = document.getElementById('expiredOrdersModal');
+            const listContainer = document.getElementById('expired-orders-list');
+            const title = document.getElementById('expiredModalTitle');
+            
+            let titleText = '';
+            switch(type) {
+                case 'urgent': titleText = 'Pedidos Urgentes Caducados'; break;
+                case 'normal': titleText = 'Pedidos Normales Caducados'; break;
+                case 'urgent_warning': titleText = 'Pedidos Urgentes por Caducar'; break;
+                case 'normal_warning': titleText = 'Pedidos Normales por Caducar'; break;
+            }
+            title.textContent = titleText;
+            
+            listContainer.innerHTML = '<div style="text-align:center; padding:20px;"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>';
+            
+            // Use classList to trigger CSS animations and visibility
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            fetch(`php/get_expired_orders_list.php?type=${type}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.orders.length === 0) {
+                            listContainer.innerHTML = '<p style="text-align:center; padding:20px;">No hay pedidos en esta categoría.</p>';
+                            return;
+                        }
+                        
+                        let html = '<table style="width:100%; border-collapse: collapse;">';
+                        html += '<thead style="background:#f8f9fa;"><tr><th style="padding:10px; border-bottom:2px solid #eee; text-align:left;">Guía</th><th style="padding:10px; border-bottom:2px solid #eee; text-align:left;">Cliente</th><th style="padding:10px; border-bottom:2px solid #eee; text-align:left;">Área</th><th style="padding:10px; border-bottom:2px solid #eee; text-align:left;">Fecha</th><th style="padding:10px; border-bottom:2px solid #eee; text-align:left;">Estado</th></tr></thead><tbody>';
+                        
+                        data.orders.forEach(order => {
+                            let statusColor = order.status_class === 'expired-text' ? '#dc3545' : '#fd7e14';
+                            html += `<tr>
+                                <td style="padding:10px; border-bottom:1px solid #eee; font-family:monospace;">${order.numero_guia}</td>
+                                <td style="padding:10px; border-bottom:1px solid #eee;">${order.nombre_cliente}</td>
+                                <td style="padding:10px; border-bottom:1px solid #eee;"><span style="background:#e9ecef; padding:2px 8px; border-radius:12px; font-size:0.85em;">${order.nombre_area}</span></td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; font-size:0.9em;">${order.fecha_formateada}</td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; color:${statusColor}; font-weight:bold; font-size:0.9em;">${order.tiempo_info}</td>
+                            </tr>`;
+                        });
+                        html += '</tbody></table>';
+                        listContainer.innerHTML = html;
+                    } else {
+                        listContainer.innerHTML = '<p style="color:red; text-align:center;">Error al cargar datos.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    listContainer.innerHTML = '<p style="color:red; text-align:center;">Error de conexión.</p>';
+                });
+        }
+        
+        function closeExpiredModal() {
+            const modal = document.getElementById('expiredOrdersModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Cerrar al hacer clic fuera del modal (específico para este modal)
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('expiredOrdersModal');
+            if (event.target == modal) {
+                closeExpiredModal();
+            }
+        });
+
+        // Cargar configuración al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check notifications (optional trigger on load)
+            fetch('php/check_notifications.php'); 
+        });
     </script>
     
     <!-- Modal para Detalles de Área -->
@@ -930,8 +1055,13 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="stat-info">
                             <div class="stat-number" id="modalProcesoCount">0</div>
                             <div class="stat-label">En Proceso</div>
-                        </div>
+                            </div>
+
+
+        </div>
                     </div>
+
+
                     <div class="area-stat-card preparado-card">
                         <div class="stat-icon">
                             <i class="fas fa-check-circle"></i>
@@ -957,6 +1087,23 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
     
+
+
+    <!-- Modal para Pedidos Caducados -->
+    <div id="expiredOrdersModal" class="area-modal">
+        <div class="area-modal-content" style="max-width: 600px;">
+            <div class="area-modal-header">
+                <h3 id="expiredModalTitle">Pedidos Caducados</h3>
+                <span class="area-modal-close" onclick="closeExpiredModal()">&times;</span>
+            </div>
+            <div class="area-modal-body">
+                <div id="expired-orders-list" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Lista se llena dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Dashboard JavaScript para el sidebar y hamburger menu -->
 <script src="js/dashboard.js" defer></script>
 <script src="js/area_modal.js" defer></script>
