@@ -33,7 +33,7 @@ function getPedidosMetrics($conn) {
     $finished_pedidos = $result_finished ? $result_finished->fetch_assoc()['finished'] : 0;
 
     // Pedidos en Recepción (área ID 20 - Finalizado)
-    $sql_reception = "SELECT COUNT(*) as reception FROM pedidos WHERE area_id = 20";
+    $sql_reception = "SELECT COUNT(*) as reception FROM pedidos WHERE area_id = 20 AND estado_id = 1";
     $result_reception = $conn->query($sql_reception);
     $reception_pedidos = $result_reception ? $result_reception->fetch_assoc()['reception'] : 0;
 
@@ -125,6 +125,11 @@ function getPedidosMetrics($conn) {
         return $breakdown;
     }
 
+    // Pedidos en Recepción con Guia Generada (área ID 20)
+    $sql_guia_generada = "SELECT COUNT(*) as guia_generada FROM pedidos WHERE area_id = 20 AND estado_id = 1";
+    $result_guia_generada = $conn->query($sql_guia_generada);
+    $guia_generada_pedidos = $result_guia_generada ? $result_guia_generada->fetch_assoc()['guia_generada'] : 0;
+
     // Conteo de pedidos por área con desglose detallado
     $area_counts = [
         'diseno' => getAreaBreakdown($conn, [1, 2, 3]),
@@ -133,7 +138,13 @@ function getPedidosMetrics($conn) {
         'mensajeria' => getAreaBreakdown($conn, [11, 12, 13]),
         'impresion' => getAreaBreakdown($conn, [14, 15, 16]),
         'control_calidad' => getAreaBreakdown($conn, [17, 18, 19]),
-        'recepcion' => getAreaBreakdown($conn, [20, 21, 22])
+        // Recepción solo debe mostrar pedidos con Guia Generada (area_id = 20)
+        'recepcion' => [
+            'recepcion' => $guia_generada_pedidos, // Pedidos con Guia Generada (area_id = 20)
+            'proceso' => 0,
+            'preparado' => 0,
+            'total' => $guia_generada_pedidos
+        ]
     ];
 
     return [
